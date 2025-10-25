@@ -43,7 +43,7 @@
     },
     "hashtag_limits": {
       "max_hashtags": 30,
-      "recommended": 5-10
+      "recommended": "5-10"
     }
   },
   "linkedin": {

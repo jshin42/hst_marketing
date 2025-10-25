@@ -1,0 +1,128 @@
+{
+  "sample_posts": [
+    {
+      "id": "test-linkedin-001",
+      "url": "https://linkedin.com/posts/test-user-001",
+      "text": "After 10 years in marketing, I've learned that the biggest mistake companies make is focusing on vanity metrics instead of revenue impact.\n\nLast quarter, I helped a client shift from tracking 'likes' to tracking 'qualified leads' - and their ROI improved by 300%.\n\nHere's the framework we used:\n\n1. Identify revenue-driving actions\n2. Map content to business outcomes  \n3. Track conversion paths, not just engagement\n4. Optimize for quality over quantity\n\nWhat metrics are you tracking that actually move the needle?\n\n#MarketingStrategy #ROI #DataDriven #BusinessGrowth",
+      "author": {
+        "name": "Sarah Johnson",
+        "headline": "Marketing Director at TechCorp | Helping B2B companies scale through data-driven strategies",
+        "profileUrl": "https://linkedin.com/in/sarah-johnson-marketing"
+      },
+      "content": {
+        "type": "text_post"
+      },
+      "stats": {
+        "total_reactions": 247,
+        "comments": 34,
+        "shares": 18
+      },
+      "hashtags": ["#MarketingStrategy", "#ROI", "#DataDriven", "#BusinessGrowth"],
+      "publishedAt": "2024-01-20T09:15:00Z",
+      "industry": "Marketing"
+    },
+    {
+      "id": "test-linkedin-002", 
+      "url": "https://linkedin.com/posts/test-user-002",
+      "text": "Unpopular opinion: Most content strategies fail because they're built for the creator, not the audience.\n\nI see this pattern everywhere:\n→ Companies posting what they want to say\n→ Instead of what their audience needs to hear\n→ Then wondering why engagement is low\n\nThe solution? Start with customer research, not content calendars.\n\nSpend 80% of your time understanding your audience's problems, challenges, and goals. The content ideas will follow naturally.\n\nWhat's your take? Are we creating content for ourselves or our audience?\n\n#ContentStrategy #CustomerFirst #MarketingMindset #Authenticity",
+      "author": {
+        "name": "Marcus Chen",
+        "headline": "Content Strategist | Former Head of Marketing at 3 startups | Building authentic brand connections",
+        "profileUrl": "https://linkedin.com/in/marcus-chen-content"
+      },
+      "content": {
+        "type": "text_post"
+      },
+      "stats": {
+        "total_reactions": 189,
+        "comments": 42,
+        "shares": 23
+      },
+      "hashtags": ["#ContentStrategy", "#CustomerFirst", "#MarketingMindset", "#Authenticity"],
+      "publishedAt": "2024-01-19T14:30:00Z",
+      "industry": "Marketing"
+    },
+    {
+      "id": "test-linkedin-003",
+      "url": "https://linkedin.com/posts/test-user-003", 
+      "text": "The best business advice I ever received came from a failed startup.\n\nAfter burning through $500K in 18 months, our founder gathered the team and said:\n\n'We built something nobody wanted, because we never asked if they wanted it.'\n\nThat lesson has shaped every business decision I've made since:\n\n✅ Validate before you build\n✅ Talk to customers weekly, not yearly\n✅ Measure problems solved, not features shipped\n✅ Iterate based on feedback, not assumptions\n\nFailure taught me more about business than any MBA program could.\n\nWhat's the most valuable lesson you've learned from failure?\n\n#Entrepreneurship #StartupLessons #CustomerValidation #BusinessStrategy #FailFast",
+      "author": {
+        "name": "David Rodriguez",
+        "headline": "Serial Entrepreneur | 2 exits | Now helping startups avoid the mistakes I made",
+        "profileUrl": "https://linkedin.com/in/david-rodriguez-entrepreneur"
+      },
+      "content": {
+        "type": "text_post"
+      },
+      "stats": {
+        "total_reactions": 312,
+        "comments": 67,
+        "shares": 31
+      },
+      "hashtags": ["#Entrepreneurship", "#StartupLessons", "#CustomerValidation", "#BusinessStrategy", "#FailFast"],
+      "publishedAt": "2024-01-18T16:45:00Z",
+      "industry": "Entrepreneurship"
+    },
+    {
+      "id": "test-linkedin-004",
+      "url": "https://linkedin.com/posts/test-user-004",
+      "text": "Data point that will change how you think about remote work:\n\n73% of companies report higher productivity with remote teams.\nBut 68% of managers still prefer in-office work.\n\nThe disconnect? Trust.\n\nManagers trained in 'presence = productivity' struggle to adapt to results-based evaluation.\n\nThe companies winning at remote work have made 3 key shifts:\n\n1. Output measurement over time tracking\n2. Async communication as the default\n3. Regular check-ins focused on support, not surveillance\n\nRemote work isn't the future - it's the present. The question is whether leadership will adapt.\n\nWhat's been your experience with remote work effectiveness?\n\n#RemoteWork #Leadership #Productivity #FutureOfWork #Management",
+      "author": {
+        "name": "Lisa Park",
+        "headline": "VP of People Operations | Building high-performance remote teams | ex-Google, ex-Stripe",
+        "profileUrl": "https://linkedin.com/in/lisa-park-people-ops"
+      },
+      "content": {
+        "type": "text_post"
+      },
+      "stats": {
+        "total_reactions": 156,
+        "comments": 28,
+        "shares": 15
+      },
+      "hashtags": ["#RemoteWork", "#Leadership", "#Productivity", "#FutureOfWork", "#Management"],
+      "publishedAt": "2024-01-17T11:20:00Z",
+      "industry": "Human Resources"
+    }
+  ],
+  "apify_response_structure": {
+    "data": {
+      "items": "array_of_posts_above"
+    },
+    "status": "SUCCEEDED"
+  },
+  "search_parameters": {
+    "searchKeywords": "content marketing strategy",
+    "dateFilter": "past-week",
+    "resultsLimit": 50,
+    "region": "US"
+  },
+  "analysis_expected_outputs": {
+    "professional_post_analysis": {
+      "linkedin_score": 82,
+      "scoring_breakdown": {
+        "professional_authority": "85 - Demonstrates clear expertise and industry experience",
+        "business_value_delivery": "80 - Provides actionable framework and ROI focus",
+        "linkedin_optimization": "82 - Good use of structure, hashtags, and engagement question",
+        "professional_networking": "80 - Encourages discussion and knowledge sharing"
+      },
+      "primary_strengths": "Authority building through experience (establishes credibility), concrete results sharing (provides proof), actionable framework (delivers immediate value)",
+      "framework_1": "Problem-Insight-Solution: Identifies common business issue, provides expert analysis, offers strategic framework. Action: Lead with industry experience",
+      "framework_2": "Experience-Lesson-Application: Personal professional story, key learning, practical business application. Action: Share specific results and metrics",
+      "framework_3": "Authority-Value-Engagement: Expertise demonstration, valuable framework, community discussion prompt. Action: End with relevant question"
+    },
+    "thought_leadership_analysis": {
+      "linkedin_score": 79,
+      "scoring_breakdown": {
+        "professional_authority": "82 - Strong contrarian perspective with industry insight",
+        "business_value_delivery": "78 - Valuable mindset shift for content creators",
+        "linkedin_optimization": "78 - Good formatting and engagement hook",
+        "professional_networking": "78 - Generates discussion on common industry challenge"
+      },
+      "primary_strengths": "Contrarian hook (challenges conventional thinking), problem diagnosis (identifies root cause), solution focus (research-based approach)",
+      "framework_1": "Contrarian-Evidence-Solution: Challenges popular belief, provides supporting evidence, offers alternative approach. Action: Start with 'unpopular opinion'",
+      "framework_2": "Problem-Diagnosis-Prescription: Common issue identification, root cause analysis, strategic solution. Action: Use arrow format for clarity",
+      "framework_3": "Opinion-Support-Engagement: Strong perspective, reasoning support, community discussion. Action: Ask for audience perspective"
+    }
+  }
+}

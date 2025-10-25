@@ -1,0 +1,238 @@
+{
+  "sample_videos": [
+    {
+      "id": "test-tiktok-001",
+      "desc": "POV: You're a business owner who just discovered this productivity hack 🚀 It changed everything! Save this for later 📌 #productivity #business #entrepreneur #lifehack #workfromhome",
+      "playCount": 45000,
+      "shareCount": 1200,
+      "commentCount": 890,
+      "collectCount": 2300,
+      "authorMeta": {
+        "name": "business_coach_sarah",
+        "nickname": "Sarah | Business Coach",
+        "verified": false,
+        "followerCount": 125000,
+        "followingCount": 1500,
+        "heartCount": 2800000,
+        "videoCount": 342
+      },
+      "musicMeta": {
+        "musicName": "original sound",
+        "musicAuthor": "business_coach_sarah",
+        "musicOriginal": true,
+        "playUrl": "https://example.com/original-sound-001.mp3"
+      },
+      "videoMeta": {
+        "duration": 28,
+        "ratio": "720p",
+        "cover": "https://example.com/cover-001.jpg",
+        "dynamicCover": "https://example.com/dynamic-cover-001.webp",
+        "playAddr": "https://example.com/video-001.mp4"
+      },
+      "hashtags": ["#productivity", "#business", "#entrepreneur", "#lifehack", "#workfromhome"],
+      "createTime": "2024-01-20T15:30:00Z",
+      "isOriginal": true,
+      "textExtra": [
+        {
+          "start": 68,
+          "end": 81,
+          "hashtagName": "productivity"
+        },
+        {
+          "start": 82,
+          "end": 91,
+          "hashtagName": "business"
+        }
+      ]
+    },
+    {
+      "id": "test-tiktok-002",
+      "desc": "3 mistakes I made in my first year of business that cost me $50K 💸 Don't make these same errors! #businesstips #entrepreneur #startup #mistakes #learn",
+      "playCount": 67000,
+      "shareCount": 1800,
+      "commentCount": 1245,
+      "collectCount": 3400,
+      "authorMeta": {
+        "name": "startup_mentor_alex",
+        "nickname": "Alex | Startup Mentor",
+        "verified": true,
+        "followerCount": 340000,
+        "followingCount": 892,
+        "heartCount": 8900000,
+        "videoCount": 567
+      },
+      "musicMeta": {
+        "musicName": "original sound",
+        "musicAuthor": "startup_mentor_alex",
+        "musicOriginal": true,
+        "playUrl": "https://example.com/original-sound-002.mp3"
+      },
+      "videoMeta": {
+        "duration": 45,
+        "ratio": "720p",
+        "cover": "https://example.com/cover-002.jpg",
+        "dynamicCover": "https://example.com/dynamic-cover-002.webp",
+        "playAddr": "https://example.com/video-002.mp4"
+      },
+      "hashtags": ["#businesstips", "#entrepreneur", "#startup", "#mistakes", "#learn"],
+      "createTime": "2024-01-19T09:15:00Z",
+      "isOriginal": true,
+      "textExtra": [
+        {
+          "start": 89,
+          "end": 102,
+          "hashtagName": "businesstips"
+        },
+        {
+          "start": 103,
+          "end": 116,
+          "hashtagName": "entrepreneur"
+        }
+      ]
+    },
+    {
+      "id": "test-tiktok-003",
+      "desc": "This 30-second morning routine will change your life ✨ Try it for 7 days and watch what happens! Who's in? 👇 #morningroutine #selfcare #productivity #mindset #habits",
+      "playCount": 123000,
+      "shareCount": 3200,
+      "commentCount": 2567,
+      "collectCount": 5600,
+      "authorMeta": {
+        "name": "wellness_guru_emma",
+        "nickname": "Emma | Wellness & Mindset",
+        "verified": false,
+        "followerCount": 89000,
+        "followingCount": 743,
+        "heartCount": 1200000,
+        "videoCount": 189
+      },
+      "musicMeta": {
+        "musicName": "Inspiring Background Music",
+        "musicAuthor": "Trending Audio",
+        "musicOriginal": false,
+        "playUrl": "https://example.com/trending-music-003.mp3"
+      },
+      "videoMeta": {
+        "duration": 32,
+        "ratio": "720p",
+        "cover": "https://example.com/cover-003.jpg",
+        "dynamicCover": "https://example.com/dynamic-cover-003.webp",
+        "playAddr": "https://example.com/video-003.mp4"
+      },
+      "hashtags": ["#morningroutine", "#selfcare", "#productivity", "#mindset", "#habits"],
+      "createTime": "2024-01-18T07:45:00Z",
+      "isOriginal": false,
+      "textExtra": [
+        {
+          "start": 95,
+          "end": 110,
+          "hashtagName": "morningroutine"
+        },
+        {
+          "start": 111,
+          "end": 120,
+          "hashtagName": "selfcare"
+        }
+      ]
+    },
+    {
+      "id": "test-tiktok-004",
+      "desc": "Day in the life running a 6-figure online business from my phone 📱 The freedom is unreal! #digitalnomad #onlinebusiness #freedom #entrepreneurlife #success",
+      "playCount": 89000,
+      "shareCount": 2100,
+      "commentCount": 1456,
+      "collectCount": 4200,
+      "authorMeta": {
+        "name": "digital_entrepreneur_kai",
+        "nickname": "Kai | Digital Entrepreneur",
+        "verified": false,
+        "followerCount": 156000,
+        "followingCount": 634,
+        "heartCount": 3400000,
+        "videoCount": 278
+      },
+      "musicMeta": {
+        "musicName": "original sound",
+        "musicAuthor": "digital_entrepreneur_kai",
+        "musicOriginal": true,
+        "playUrl": "https://example.com/original-sound-004.mp3"
+      },
+      "videoMeta": {
+        "duration": 52,
+        "ratio": "720p",
+        "cover": "https://example.com/cover-004.jpg",
+        "dynamicCover": "https://example.com/dynamic-cover-004.webp",
+        "playAddr": "https://example.com/video-004.mp4"
+      },
+      "hashtags": ["#digitalnomad", "#onlinebusiness", "#freedom", "#entrepreneurlife", "#success"],
+      "createTime": "2024-01-17T14:20:00Z",
+      "isOriginal": true,
+      "textExtra": [
+        {
+          "start": 87,
+          "end": 100,
+          "hashtagName": "digitalnomad"
+        },
+        {
+          "start": 101,
+          "end": 116,
+          "hashtagName": "onlinebusiness"
+        }
+      ]
+    }
+  ],
+  "api_response_structure": {
+    "data": {
+      "videos": "array_of_videos_above"
+    },
+    "status": "success"
+  },
+  "search_parameters": {
+    "keywords": "business productivity tips",
+    "count": 50,
+    "offset": 0,
+    "region": "US",
+    "period": "7d"
+  },
+  "analysis_expected_outputs": {
+    "viral_video_analysis": {
+      "tiktok_score": 89,
+      "scoring_breakdown": {
+        "hook_retention": "92 - Strong POV hook that immediately creates relatability",
+        "algorithm_optimization": "88 - Excellent hashtag strategy and trending audio usage",
+        "authenticity_factors": "85 - Genuine business scenario with real results",
+        "entertainment_value": "90 - Perfect balance of education and entertainment"
+      },
+      "primary_strengths": "POV hook format (creates immediate engagement), results-focused content (builds credibility), save-worthy value (drives engagement)",
+      "framework_1": "POV-Problem-Solution: Point of view setup, problem identification, solution reveal. Action: Start with 'POV: You're a...'",
+      "framework_2": "Hook-Reveal-CTA: Attention grab, value delivery, engagement prompt. Action: Use strong opening statement",
+      "framework_3": "Story-Transformation-Proof: Personal narrative, change process, evidence of results. Action: Share specific metrics and outcomes"
+    },
+    "mistake_sharing_analysis": {
+      "tiktok_score": 86,
+      "scoring_breakdown": {
+        "hook_retention": "88 - Numerical hook with high-stakes consequences",
+        "algorithm_optimization": "85 - Good hashtag mix and verified creator authority",
+        "authenticity_factors": "90 - Vulnerable sharing of real business failures",
+        "entertainment_value": "80 - Educational but less entertainment-focused"
+      },
+      "primary_strengths": "Vulnerability hook (builds trust), specific consequences (creates urgency), learning framework (provides value)",
+      "framework_1": "Mistake-Consequence-Lesson: Error admission, impact revelation, wisdom sharing. Action: Lead with specific number and cost",
+      "framework_2": "Problem-Pain-Prevention: Issue identification, damage explanation, avoidance strategy. Action: Use concrete financial examples",
+      "framework_3": "Experience-Learning-Teaching: Personal journey, insights gained, knowledge transfer. Action: Focus on actionable takeaways"
+    },
+    "routine_challenge_analysis": {
+      "tiktok_score": 91,
+      "scoring_breakdown": {
+        "hook_retention": "95 - Time-specific promise with transformation claim",
+        "algorithm_optimization": "90 - Trending audio use and engagement-driving hashtags",
+        "authenticity_factors": "88 - Achievable routine with clear benefits",
+        "entertainment_value": "92 - Inspirational and motivational content style"
+      },
+      "primary_strengths": "Time-bound challenge (creates urgency), transformation promise (motivates action), community building (drives engagement)",
+      "framework_1": "Challenge-Duration-Outcome: Task presentation, time commitment, expected results. Action: Use specific timeframes",
+      "framework_2": "Routine-Benefit-Community: Habit introduction, value proposition, group participation. Action: Ask for community involvement",
+      "framework_3": "Quick-Win-Transformation: Simple action, immediate benefits, life change potential. Action: Focus on accessibility and results"
+    }
+  }
+}

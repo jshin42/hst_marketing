@@ -1,0 +1,114 @@
+{
+  "timestamp": "2025-10-25T13:59:53.577Z",
+  "status": "unhealthy",
+  "apis": {
+    "airtable": {
+      "status": "unhealthy",
+      "error": "Request failed with status code 404",
+      "responseTime": 81,
+      "lastChecked": "2025-10-25T13:59:53.688Z"
+    },
+    "apify": {
+      "status": "unhealthy",
+      "error": "Request failed with status code 401",
+      "responseTime": 82,
+      "lastChecked": "2025-10-25T13:59:53.689Z"
+    },
+    "openai": {
+      "status": "unhealthy",
+      "error": "Request failed with status code 401",
+      "responseTime": 282,
+      "lastChecked": "2025-10-25T13:59:53.869Z"
+    },
+    "rapidapi": {
+      "instagram_scraper": {
+        "status": "unhealthy",
+        "error": "Request failed with status code 403",
+        "responseTime": 123,
+        "lastChecked": "2025-10-25T13:59:53.728Z"
+      },
+      "tiktok_api": {
+        "status": "unhealthy",
+        "error": "Request failed with status code 403",
+        "responseTime": 273,
+        "lastChecked": "2025-10-25T13:59:54.002Z"
+      }
+    }
+  },
+  "performance": {
+    "memory": {
+      "rss": 71,
+      "heapTotal": 13,
+      "heapUsed": 9,
+      "external": 3
+    },
+    "diskSpace": {
+      "total": "460Gi",
+      "used": "95Gi",
+      "available": "346Gi",
+      "usedPercentage": "22%"
+    },
+    "files": {
+      "config/airtable-schema.json": {
+        "exists": true,
+        "size": 9045,
+        "lastModified": "2025-10-25T13:08:39.357Z"
+      },
+      "config/platforms.json": {
+        "exists": true,
+        "size": 4905,
+        "lastModified": "2025-10-25T13:58:39.121Z"
+      },
+      "workflows/n8n/viral-content-research.json": {
+        "exists": true,
+        "size": 35344,
+        "lastModified": "2025-10-25T13:14:11.155Z"
+      },
+      "workflows/n8n/content-generation-pipeline.json": {
+        "exists": true,
+        "size": 34131,
+        "lastModified": "2025-10-25T13:16:12.315Z"
+      }
+    },
+    "checkDuration": 15,
+    "nodeVersion": "v22.18.0",
+    "platform": "darwin",
+    "uptime": 0.481724791
+  },
+  "warnings": [],
+  "errors": [
+    "AirTable API: Request failed with status code 404",
+    "Apify API: Request failed with status code 401",
+    "Instagram Scraper: Request failed with status code 403",
+    "OpenAI API: Request failed with status code 401",
+    "TikTok API: Request failed with status code 403"
+  ],
+  "rateLimits": {
+    "openai": {
+      "status": "error",
+      "error": "Request failed with status code 401"
+    },
+    "rapidapi": {
+      "status": "unknown",
+      "note": "RapidAPI rate limits vary by subscription and endpoint"
+    },
+    "apify": {
+      "status": "error",
+      "error": "Request failed with status code 401"
+    }
+  },
+  "workflows": {
+    "workflows/n8n/viral-content-research.json": {
+      "status": "valid",
+      "nodeCount": 30,
+      "hasConnections": true,
+      "lastModified": "2025-10-25T13:14:11.155Z"
+    },
+    "workflows/n8n/content-generation-pipeline.json": {
+      "status": "valid",
+      "nodeCount": 19,
+      "hasConnections": true,
+      "lastModified": "2025-10-25T13:16:12.315Z"
+    }
+  }
+}

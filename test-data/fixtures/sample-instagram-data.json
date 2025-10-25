@@ -1,0 +1,181 @@
+{
+  "sample_reels": [
+    {
+      "code": "test-reel-001",
+      "product_type": "clips",
+      "like_count": 15420,
+      "comment_count": 342,
+      "caption": "5 marketing mistakes that are killing your reach 🚫 Save this post and avoid these common pitfalls! #marketing #socialmedia #contentcreator #entrepreneur #businesstips",
+      "created_at_human_readable": "2024-01-20T08:30:00Z",
+      "username": "marketingpro",
+      "video_url": "https://example.com/video1.mp4",
+      "dash_info": {
+        "video_dash_manifest": "<AdaptationSet contentType=\"video\"><BaseURL>video_url</BaseURL></AdaptationSet><AdaptationSet contentType=\"audio\"><BaseURL>https://example.com/audio1.mp4?token=abc123&amp;version=1</BaseURL></AdaptationSet>"
+      },
+      "edge_media_to_caption": {
+        "edges": [
+          {
+            "node": {
+              "text": "5 marketing mistakes that are killing your reach 🚫 Save this post and avoid these common pitfalls! #marketing #socialmedia #contentcreator #entrepreneur #businesstips"
+            }
+          }
+        ]
+      },
+      "edge_media_preview_like": {
+        "count": 15420
+      },
+      "owner": {
+        "username": "marketingpro"
+      }
+    },
+    {
+      "code": "test-reel-002", 
+      "product_type": "clips",
+      "like_count": 8930,
+      "comment_count": 156,
+      "caption": "I tried posting at different times for 30 days. Here's what happened to my engagement 📈 #socialmediatips #contentmarketing #algorithm",
+      "created_at_human_readable": "2024-01-19T14:15:00Z",
+      "username": "contentqueen",
+      "video_url": "https://example.com/video2.mp4",
+      "dash_info": {
+        "video_dash_manifest": "<AdaptationSet contentType=\"video\"><BaseURL>video_url</BaseURL></AdaptationSet><AdaptationSet contentType=\"audio\"><BaseURL>https://example.com/audio2.mp4?token=def456&amp;version=1</BaseURL></AdaptationSet>"
+      },
+      "edge_media_to_caption": {
+        "edges": [
+          {
+            "node": {
+              "text": "I tried posting at different times for 30 days. Here's what happened to my engagement 📈 #socialmediatips #contentmarketing #algorithm"
+            }
+          }
+        ]
+      },
+      "edge_media_preview_like": {
+        "count": 8930
+      },
+      "owner": {
+        "username": "contentqueen"
+      }
+    }
+  ],
+  "sample_carousels": [
+    {
+      "code": "test-carousel-001",
+      "product_type": "carousel_container",
+      "like_count": 12750,
+      "comment_count": 289,
+      "caption": "The complete guide to viral content frameworks 📚 Swipe to see the 5 frameworks that consistently drive engagement ➡️",
+      "created_at_human_readable": "2024-01-18T16:45:00Z",
+      "username": "viralmarketer",
+      "edge_sidecar_to_children": {
+        "edges": [
+          {
+            "node": {
+              "display_url": "https://example.com/carousel1-slide1.jpg",
+              "accessibility_caption": "Viral Content Frameworks Guide - Slide 1"
+            }
+          },
+          {
+            "node": {
+              "display_url": "https://example.com/carousel1-slide2.jpg",
+              "accessibility_caption": "Problem-Solution-Proof Framework"
+            }
+          },
+          {
+            "node": {
+              "display_url": "https://example.com/carousel1-slide3.jpg",
+              "accessibility_caption": "Hook-Educate-CTA Framework"
+            }
+          },
+          {
+            "node": {
+              "display_url": "https://example.com/carousel1-slide4.jpg",
+              "accessibility_caption": "Story-Lesson-Application Framework"
+            }
+          },
+          {
+            "node": {
+              "display_url": "https://example.com/carousel1-slide5.jpg",
+              "accessibility_caption": "Summary and Call-to-Action"
+            }
+          }
+        ]
+      },
+      "edge_media_to_caption": {
+        "edges": [
+          {
+            "node": {
+              "text": "The complete guide to viral content frameworks 📚 Swipe to see the 5 frameworks that consistently drive engagement ➡️"
+            }
+          }
+        ]
+      },
+      "edge_media_preview_like": {
+        "count": 12750
+      },
+      "owner": {
+        "username": "viralmarketer"
+      }
+    }
+  ],
+  "sample_posts": [
+    {
+      "code": "test-post-001",
+      "product_type": "feed",
+      "like_count": 3420,
+      "comment_count": 87,
+      "caption": "Behind the scenes of our content creation process ✨ It's not always glamorous, but consistency is key! What's your content creation routine? #behindthescenes #contentcreation #process",
+      "created_at_human_readable": "2024-01-17T11:20:00Z",
+      "username": "creativestudio",
+      "display_url": "https://example.com/post1.jpg",
+      "edge_media_to_caption": {
+        "edges": [
+          {
+            "node": {
+              "text": "Behind the scenes of our content creation process ✨ It's not always glamorous, but consistency is key! What's your content creation routine? #behindthescenes #contentcreation #process"
+            }
+          }
+        ]
+      },
+      "edge_media_preview_like": {
+        "count": 3420
+      },
+      "owner": {
+        "username": "creativestudio"
+      }
+    }
+  ],
+  "api_response_structure": {
+    "data": {
+      "posts": "array_of_posts_above"
+    },
+    "status": "success"
+  },
+  "analysis_expected_outputs": {
+    "reel_analysis": {
+      "viral_score": 87,
+      "scoring_breakdown": {
+        "viral_mechanics": "85 - Strong hook with clear value proposition",
+        "content_structure": "90 - Clear problem-solution framework",
+        "platform_optimization": "85 - Good hashtag strategy and mobile format",
+        "authenticity_factors": "88 - Relatable business scenario"
+      },
+      "primary_strengths": "Problem identification hook (creates immediate relevance), proven solution framework (builds credibility), save-worthy format (drives engagement)",
+      "framework_1": "Problem-Solution-Proof: Identifies common marketing issues, provides solutions, demonstrates effectiveness. Action: Lead with specific problem statement",
+      "framework_2": "Hook-Educate-CTA: Strong attention grabber, educational value, clear action. Action: Use emoji and save prompt",
+      "framework_3": "List-Expand-Surprise: Overview of mistakes, detailed explanations, bonus insights. Action: Number items for easy consumption"
+    },
+    "carousel_analysis": {
+      "viral_score": 83,
+      "scoring_breakdown": {
+        "viral_mechanics": "80 - Good swipe motivation and value promise",
+        "content_structure": "85 - Clear educational progression",
+        "platform_optimization": "82 - Optimal slide count and formatting",
+        "authenticity_factors": "85 - Valuable educational content"
+      },
+      "primary_strengths": "Educational hook (promises valuable frameworks), logical slide progression (easy to follow), actionable frameworks (immediately applicable)",
+      "framework_1": "Hook-Educate-CTA: Promise of valuable information, educational delivery, engagement prompt. Action: Create curiosity with slide count",
+      "framework_2": "Educational-Sequential: Step-by-step framework breakdown with examples. Action: Use consistent visual design",
+      "framework_3": "Value-Stack-Apply: Multiple frameworks presented, implementation guidance. Action: End with summary and application"
+    }
+  }
+}
