@@ -1,0 +1,804 @@
+{
+  "name": "Content Generation Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -2400,
+        400
+      ],
+      "id": "email-trigger",
+      "name": "Email Trigger (Gmail)",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "${GMAIL_CREDENTIAL_ID}",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Content Generation Pipeline\n### Email-Triggered Content Creation\n- Receives AirTable automation emails\n- Generates original content using viral frameworks\n- Sends approval emails with human-in-loop\n- Handles feedback and regeneration\n- Saves approved content to pipeline",
+        "height": 400,
+        "width": 800,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2800,
+        200
+      ],
+      "typeVersion": 1,
+      "id": "pipeline-description",
+      "name": "Pipeline Overview"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.subject }}",
+                    "rightValue": "Content Generation Request - Instagram",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "instagram-trigger"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Instagram"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.subject }}",
+                    "rightValue": "Content Generation Request - LinkedIn",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "linkedin-trigger"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "LinkedIn"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.subject }}",
+                    "rightValue": "Content Generation Request - TikTok",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "tiktok-trigger"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "TikTok"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.subject }}",
+                    "rightValue": "Re:",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "approval-response"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ApprovalResponse"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        -2000,
+        400
+      ],
+      "id": "email-router",
+      "name": "Email Type Router"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "email-data",
+              "name": "email_body",
+              "value": "={{ $json.body }}",
+              "type": "string"
+            },
+            {
+              "id": "email-subject",
+              "name": "subject",
+              "value": "={{ $json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "sender-email",
+              "name": "sender_email",
+              "value": "={{ $json.from }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1600,
+        200
+      ],
+      "id": "prepare-instagram-data",
+      "name": "Prepare Instagram Generation Data"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert content creator generating completely ORIGINAL Instagram content inspired by viral patterns.\n\n## Email Content Analysis\nParse this email content to extract the viral framework information:\n{{ $json.email_body }}\n\n## Content Generation Task\nCreate completely original Instagram content using the provided framework. Follow these requirements:\n\n### ORIGINALITY REQUIREMENTS\n- Create entirely new examples, statistics, and insights\n- Never copy phrases or specific details from inspiration content\n- Develop unique hooks, examples, and calls-to-action\n- Use the framework structure while maintaining complete originality\n\n### INSTAGRAM OPTIMIZATION\n- Mobile-first design and readability\n- Strategic hashtag selection (5-10 relevant hashtags)\n- Engagement-driving captions with clear hooks\n- Platform-specific formatting and structure\n\n### OUTPUT FORMAT\nProvide response in this exact JSON structure:\n\n{\n  \"content\": {\n    \"main_content\": \"Complete Instagram post content or video script\",\n    \"content_type\": \"Reel, Carousel, or Post\"\n  },\n  \"caption\": {\n    \"hook_caption\": \"Engaging Instagram caption with strong opening\",\n    \"hashtags\": \"#relevant #instagram #hashtags\",\n    \"cta\": \"Clear call-to-action for engagement\"\n  },\n  \"production_details\": {\n    \"visual_direction\": \"Specific visual requirements and creative direction\",\n    \"audio_notes\": \"Audio requirements, music, or voiceover guidance\",\n    \"technical_specs\": \"Instagram technical requirements (duration, format, etc.)\"\n  },\n  \"framework_application\": {\n    \"framework_used\": \"Name of viral framework applied\",\n    \"adaptation_explanation\": \"How framework was adapted for new content\",\n    \"engagement_strategy\": \"Specific elements designed to drive interaction\"\n  },\n  \"performance_prediction\": {\n    \"viral_potential\": \"Expected performance factors and viral elements\",\n    \"target_audience\": \"Primary audience for this content\",\n    \"optimization_notes\": \"Instagram algorithm optimization elements\"\n  }\n}\n\nGenerate content that follows the viral framework while being completely unique and optimized for Instagram engagement.",
+        "hasOutputParser": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -1200,
+        200
+      ],
+      "id": "generate-instagram-content",
+      "name": "Generate Instagram Content"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"content\": {\n    \"main_content\": \"Complete content\",\n    \"content_type\": \"Type\"\n  },\n  \"caption\": {\n    \"hook_caption\": \"Caption\",\n    \"hashtags\": \"hashtags\",\n    \"cta\": \"call to action\"\n  },\n  \"production_details\": {\n    \"visual_direction\": \"Visual direction\",\n    \"audio_notes\": \"Audio notes\",\n    \"technical_specs\": \"Technical specs\"\n  },\n  \"framework_application\": {\n    \"framework_used\": \"Framework name\",\n    \"adaptation_explanation\": \"How adapted\",\n    \"engagement_strategy\": \"Engagement strategy\"\n  },\n  \"performance_prediction\": {\n    \"viral_potential\": \"Viral potential\",\n    \"target_audience\": \"Target audience\",\n    \"optimization_notes\": \"Optimization notes\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -800,
+        200
+      ],
+      "id": "parse-instagram-output",
+      "name": "Parse Instagram Output"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "email": "={{ $('Prepare Instagram Generation Data').item.json.sender_email }}",
+        "subject": "Instagram Content Approval Required",
+        "message": "=# Instagram Content Generated\n\n## Generated Content\n**Type:** {{ $json.output.content.content_type }}\n\n**Main Content:**\n{{ $json.output.content.main_content }}\n\n## Caption\n{{ $json.output.caption.hook_caption }}\n\n{{ $json.output.caption.hashtags }}\n\n**Call to Action:** {{ $json.output.caption.cta }}\n\n## Production Details\n**Visual Direction:** {{ $json.output.production_details.visual_direction }}\n\n**Audio Notes:** {{ $json.output.production_details.audio_notes }}\n\n**Technical Specs:** {{ $json.output.production_details.technical_specs }}\n\n## Framework Analysis\n**Framework Used:** {{ $json.output.framework_application.framework_used }}\n\n**Why This Should Work:** {{ $json.output.framework_application.adaptation_explanation }}\n\n**Engagement Strategy:** {{ $json.output.framework_application.engagement_strategy }}\n\n## Performance Prediction\n**Viral Potential:** {{ $json.output.performance_prediction.viral_potential }}\n\n**Target Audience:** {{ $json.output.performance_prediction.target_audience }}\n\n---\n\n**Please respond with your feedback:**\n- Type \"APPROVED\" to approve this content\n- Provide specific feedback for changes needed\n- Type \"REJECT\" to completely reject this direction",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -400,
+        200
+      ],
+      "id": "send-instagram-approval",
+      "name": "Send Instagram Approval Email",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "${GMAIL_CREDENTIAL_ID}",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "email-data",
+              "name": "email_body",
+              "value": "={{ $json.body }}",
+              "type": "string"
+            },
+            {
+              "id": "email-subject",
+              "name": "subject",
+              "value": "={{ $json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "sender-email",
+              "name": "sender_email",
+              "value": "={{ $json.from }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1600,
+        400
+      ],
+      "id": "prepare-linkedin-data",
+      "name": "Prepare LinkedIn Generation Data"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert LinkedIn content creator generating completely ORIGINAL professional content inspired by viral patterns.\n\n## Email Content Analysis\nParse this email content to extract the viral framework information:\n{{ $json.email_body }}\n\n## Content Generation Task\nCreate completely original LinkedIn content using the provided framework. Follow these requirements:\n\n### ORIGINALITY REQUIREMENTS\n- Create entirely new business examples, statistics, and professional insights\n- Never copy phrases or specific details from inspiration content\n- Develop unique professional hooks, examples, and calls-to-action\n- Use the framework structure while maintaining complete originality\n\n### LINKEDIN OPTIMIZATION\n- Professional tone with approachable expertise\n- 1,300-2,000 characters for optimal LinkedIn performance\n- Strategic line breaks and professional formatting\n- Business value and career advancement focus\n- Network engagement and thought leadership positioning\n\n### OUTPUT FORMAT\nProvide response in this exact JSON structure:\n\n{\n  \"content\": {\n    \"main_content\": \"Complete LinkedIn post content\",\n    \"content_type\": \"Professional Post\"\n  },\n  \"caption\": {\n    \"hook_caption\": \"Professional opening that stops the scroll\",\n    \"hashtags\": \"#professional #linkedin #hashtags\",\n    \"cta\": \"Professional call-to-action for engagement\"\n  },\n  \"production_details\": {\n    \"visual_direction\": \"Professional visual requirements if needed\",\n    \"posting_strategy\": \"Optimal posting time and engagement strategy\",\n    \"network_targeting\": \"Target professional audience segments\"\n  },\n  \"framework_application\": {\n    \"framework_used\": \"Name of professional framework applied\",\n    \"business_value\": \"Clear business value and professional relevance\",\n    \"authority_building\": \"How this builds professional authority\"\n  },\n  \"performance_prediction\": {\n    \"engagement_potential\": \"Expected professional engagement factors\",\n    \"target_professionals\": \"Primary professional audience\",\n    \"networking_value\": \"How this builds professional connections\"\n  }\n}\n\nGenerate content that follows the viral framework while being completely unique and optimized for LinkedIn professional engagement.",
+        "hasOutputParser": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -1200,
+        400
+      ],
+      "id": "generate-linkedin-content",
+      "name": "Generate LinkedIn Content"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"content\": {\n    \"main_content\": \"Complete content\",\n    \"content_type\": \"Type\"\n  },\n  \"caption\": {\n    \"hook_caption\": \"Caption\",\n    \"hashtags\": \"hashtags\",\n    \"cta\": \"call to action\"\n  },\n  \"production_details\": {\n    \"visual_direction\": \"Visual direction\",\n    \"posting_strategy\": \"Posting strategy\",\n    \"network_targeting\": \"Network targeting\"\n  },\n  \"framework_application\": {\n    \"framework_used\": \"Framework name\",\n    \"business_value\": \"Business value\",\n    \"authority_building\": \"Authority building\"\n  },\n  \"performance_prediction\": {\n    \"engagement_potential\": \"Engagement potential\",\n    \"target_professionals\": \"Target professionals\",\n    \"networking_value\": \"Networking value\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -800,
+        400
+      ],
+      "id": "parse-linkedin-output",
+      "name": "Parse LinkedIn Output"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "email": "={{ $('Prepare LinkedIn Generation Data').item.json.sender_email }}",
+        "subject": "LinkedIn Content Approval Required",
+        "message": "=# LinkedIn Content Generated\n\n## Generated Content\n**Type:** {{ $json.output.content.content_type }}\n\n**Main Content:**\n{{ $json.output.content.main_content }}\n\n## Caption & Optimization\n{{ $json.output.caption.hook_caption }}\n\n{{ $json.output.caption.hashtags }}\n\n**Call to Action:** {{ $json.output.caption.cta }}\n\n## Professional Strategy\n**Visual Direction:** {{ $json.output.production_details.visual_direction }}\n\n**Posting Strategy:** {{ $json.output.production_details.posting_strategy }}\n\n**Network Targeting:** {{ $json.output.production_details.network_targeting }}\n\n## Framework Analysis\n**Framework Used:** {{ $json.output.framework_application.framework_used }}\n\n**Business Value:** {{ $json.output.framework_application.business_value }}\n\n**Authority Building:** {{ $json.output.framework_application.authority_building }}\n\n## Performance Prediction\n**Engagement Potential:** {{ $json.output.performance_prediction.engagement_potential }}\n\n**Target Professionals:** {{ $json.output.performance_prediction.target_professionals }}\n\n**Networking Value:** {{ $json.output.performance_prediction.networking_value }}\n\n---\n\n**Please respond with your feedback:**\n- Type \"APPROVED\" to approve this content\n- Provide specific feedback for changes needed\n- Type \"REJECT\" to completely reject this direction",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -400,
+        400
+      ],
+      "id": "send-linkedin-approval",
+      "name": "Send LinkedIn Approval Email",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "${GMAIL_CREDENTIAL_ID}",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "email-data",
+              "name": "email_body",
+              "value": "={{ $json.body }}",
+              "type": "string"
+            },
+            {
+              "id": "email-subject",
+              "name": "subject",
+              "value": "={{ $json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "sender-email",
+              "name": "sender_email",
+              "value": "={{ $json.from }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1600,
+        600
+      ],
+      "id": "prepare-tiktok-data",
+      "name": "Prepare TikTok Generation Data"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert TikTok content creator generating completely ORIGINAL viral content inspired by successful patterns.\n\n## Email Content Analysis\nParse this email content to extract the viral framework information:\n{{ $json.email_body }}\n\n## Content Generation Task\nCreate completely original TikTok content using the provided framework. Follow these requirements:\n\n### ORIGINALITY REQUIREMENTS\n- Create entirely new examples, scenarios, and viral moments\n- Never copy phrases or specific details from inspiration content\n- Develop unique hooks, examples, and engaging elements\n- Use the framework structure while maintaining complete originality\n\n### TIKTOK OPTIMIZATION\n- Immediate hook in first 3 seconds\n- Fast-paced, high-energy content\n- Authentic, unpolished feel\n- Gen Z cultural relevance and language\n- Trend integration where applicable\n- Mobile-first vertical video optimization\n\n### OUTPUT FORMAT\nProvide response in this exact JSON structure:\n\n{\n  \"content\": {\n    \"main_content\": \"Complete TikTok video script with timing\",\n    \"content_type\": \"TikTok Video\"\n  },\n  \"caption\": {\n    \"hook_caption\": \"Engaging TikTok caption with strong opening\",\n    \"hashtags\": \"#viral #tiktok #trending #hashtags\",\n    \"cta\": \"Clear call-to-action for engagement\"\n  },\n  \"production_details\": {\n    \"visual_direction\": \"Specific visual requirements and creative direction\",\n    \"audio_strategy\": \"Audio requirements, trending sounds, or original audio\",\n    \"editing_notes\": \"Editing style, transitions, and visual effects\",\n    \"duration\": \"Optimal video length (15-60 seconds)\"\n  },\n  \"framework_application\": {\n    \"framework_used\": \"Name of viral TikTok framework applied\",\n    \"hook_strategy\": \"First 3 seconds hook effectiveness\",\n    \"retention_elements\": \"Elements that keep viewers watching\",\n    \"trend_integration\": \"How current trends are incorporated\"\n  },\n  \"performance_prediction\": {\n    \"viral_potential\": \"Expected viral elements and algorithm factors\",\n    \"target_audience\": \"Primary TikTok audience (Gen Z, etc.)\",\n    \"engagement_drivers\": \"Specific elements that drive comments/shares\"\n  }\n}\n\nGenerate content that follows the viral framework while being completely unique and optimized for TikTok's algorithm and audience.",
+        "hasOutputParser": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -1200,
+        600
+      ],
+      "id": "generate-tiktok-content",
+      "name": "Generate TikTok Content"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"content\": {\n    \"main_content\": \"Complete content\",\n    \"content_type\": \"Type\"\n  },\n  \"caption\": {\n    \"hook_caption\": \"Caption\",\n    \"hashtags\": \"hashtags\",\n    \"cta\": \"call to action\"\n  },\n  \"production_details\": {\n    \"visual_direction\": \"Visual direction\",\n    \"audio_strategy\": \"Audio strategy\",\n    \"editing_notes\": \"Editing notes\",\n    \"duration\": \"Duration\"\n  },\n  \"framework_application\": {\n    \"framework_used\": \"Framework name\",\n    \"hook_strategy\": \"Hook strategy\",\n    \"retention_elements\": \"Retention elements\",\n    \"trend_integration\": \"Trend integration\"\n  },\n  \"performance_prediction\": {\n    \"viral_potential\": \"Viral potential\",\n    \"target_audience\": \"Target audience\",\n    \"engagement_drivers\": \"Engagement drivers\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -800,
+        600
+      ],
+      "id": "parse-tiktok-output",
+      "name": "Parse TikTok Output"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "email": "={{ $('Prepare TikTok Generation Data').item.json.sender_email }}",
+        "subject": "TikTok Content Approval Required",
+        "message": "=# TikTok Content Generated\n\n## Generated Content\n**Type:** {{ $json.output.content.content_type }}\n\n**Video Script:**\n{{ $json.output.content.main_content }}\n\n## Caption & Optimization\n{{ $json.output.caption.hook_caption }}\n\n{{ $json.output.caption.hashtags }}\n\n**Call to Action:** {{ $json.output.caption.cta }}\n\n## Production Details\n**Visual Direction:** {{ $json.output.production_details.visual_direction }}\n\n**Audio Strategy:** {{ $json.output.production_details.audio_strategy }}\n\n**Editing Notes:** {{ $json.output.production_details.editing_notes }}\n\n**Duration:** {{ $json.output.production_details.duration }}\n\n## Framework Analysis\n**Framework Used:** {{ $json.output.framework_application.framework_used }}\n\n**Hook Strategy:** {{ $json.output.framework_application.hook_strategy }}\n\n**Retention Elements:** {{ $json.output.framework_application.retention_elements }}\n\n**Trend Integration:** {{ $json.output.framework_application.trend_integration }}\n\n## Performance Prediction\n**Viral Potential:** {{ $json.output.performance_prediction.viral_potential }}\n\n**Target Audience:** {{ $json.output.performance_prediction.target_audience }}\n\n**Engagement Drivers:** {{ $json.output.performance_prediction.engagement_drivers }}\n\n---\n\n**Please respond with your feedback:**\n- Type \"APPROVED\" to approve this content\n- Provide specific feedback for changes needed\n- Type \"REJECT\" to completely reject this direction",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -400,
+        600
+      ],
+      "id": "send-tiktok-approval",
+      "name": "Send TikTok Approval Email",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "${GMAIL_CREDENTIAL_ID}",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Analyze this email response to determine approval status and extract feedback.\n\nEmail Subject: {{ $json.subject }}\nEmail Body: {{ $json.body }}\n\nDetermine:\n1. Is this an APPROVAL, REJECTION, or REQUEST FOR CHANGES?\n2. What specific feedback was provided?\n3. What platform is this for? (Instagram, LinkedIn, TikTok)\n\nReturn as JSON:\n{\n  \"approval_status\": \"APPROVED, REJECTED, or NEEDS_REVISION\",\n  \"feedback\": \"specific user feedback or 'none' if approved\",\n  \"platform\": \"Instagram, LinkedIn, or TikTok\",\n  \"action_required\": \"next step needed\"\n}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -1600,
+        800
+      ],
+      "id": "analyze-approval-response",
+      "name": "Analyze Approval Response",
+      "credentials": {
+        "openAiApi": {
+          "id": "${OPENAI_CREDENTIAL_ID}",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.content.approval_status }}",
+                    "rightValue": "APPROVED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "approved-condition"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Approved"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.content.approval_status }}",
+                    "rightValue": "NEEDS_REVISION",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "revision-condition"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "NeedsRevision"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.content.approval_status }}",
+                    "rightValue": "REJECTED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "rejected-condition"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rejected"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        -1200,
+        800
+      ],
+      "id": "approval-response-router",
+      "name": "Approval Response Router"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "${AIRTABLE_BASE_ID}",
+          "mode": "list",
+          "cachedResultName": "Viral Content Intelligence"
+        },
+        "table": {
+          "__rl": true,
+          "value": "generated_content_pipeline",
+          "mode": "list",
+          "cachedResultName": "Generated Content Pipeline"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Platform Target": "={{ $('Analyze Approval Response').item.json.message.content.platform }}",
+            "Generated Content": "=Content approved and ready for posting",
+            "Approval Status": "Approved",
+            "Generation Date": "={{ $now }}",
+            "User Feedback": "Content approved by user"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -800,
+        700
+      ],
+      "id": "save-approved-content",
+      "name": "Save Approved Content",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "${AIRTABLE_CREDENTIAL_ID}",
+          "name": "AirTable API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "messageId": "={{ $('Email Trigger (Gmail)').item.json.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -400,
+        700
+      ],
+      "id": "delete-approval-email",
+      "name": "Delete Approval Email",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "${GMAIL_CREDENTIAL_ID}",
+          "name": "Gmail OAuth2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Email Trigger (Gmail)": {
+      "main": [
+        [
+          {
+            "node": "Email Type Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Type Router": {
+      "main": [
+        [
+          {
+            "node": "Prepare Instagram Generation Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare LinkedIn Generation Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare TikTok Generation Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyze Approval Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Instagram Generation Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Instagram Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Instagram Content": {
+      "main": [
+        [
+          {
+            "node": "Parse Instagram Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Instagram Output": {
+      "main": [
+        [
+          {
+            "node": "Send Instagram Approval Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare LinkedIn Generation Data": {
+      "main": [
+        [
+          {
+            "node": "Generate LinkedIn Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate LinkedIn Content": {
+      "main": [
+        [
+          {
+            "node": "Parse LinkedIn Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse LinkedIn Output": {
+      "main": [
+        [
+          {
+            "node": "Send LinkedIn Approval Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare TikTok Generation Data": {
+      "main": [
+        [
+          {
+            "node": "Generate TikTok Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate TikTok Content": {
+      "main": [
+        [
+          {
+            "node": "Parse TikTok Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse TikTok Output": {
+      "main": [
+        [
+          {
+            "node": "Send TikTok Approval Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Approval Response": {
+      "main": [
+        [
+          {
+            "node": "Approval Response Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval Response Router": {
+      "main": [
+        [
+          {
+            "node": "Save Approved Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        []
+      ]
+    },
+    "Save Approved Content": {
+      "main": [
+        [
+          {
+            "node": "Delete Approval Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "timezone": "America/Chicago",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "content-generation-pipeline",
+      "name": "Content Generation Pipeline"
+    }
+  ]
+}

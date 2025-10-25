@@ -1,0 +1,297 @@
+{
+  "base_name": "Viral Content Intelligence",
+  "tables": {
+    "content_sources": {
+      "description": "Keywords and accounts to track for viral content discovery",
+      "fields": [
+        {
+          "name": "Keyword or User",
+          "type": "singleLineText",
+          "description": "Instagram usernames or LinkedIn/TikTok keywords to monitor"
+        },
+        {
+          "name": "Platform",
+          "type": "singleSelect",
+          "options": ["Instagram", "LinkedIn", "TikTok"],
+          "description": "Social media platform to scrape"
+        },
+        {
+          "name": "Status",
+          "type": "singleSelect", 
+          "options": ["Listening", "Paused"],
+          "description": "Whether to actively monitor this source"
+        },
+        {
+          "name": "Min Engagement Threshold",
+          "type": "number",
+          "description": "Minimum likes/views/reactions to consider content viral"
+        },
+        {
+          "name": "Content Focus",
+          "type": "singleSelect",
+          "options": ["Business", "Marketing", "Tech", "Lifestyle", "Education", "Finance"],
+          "description": "Content category for targeting"
+        },
+        {
+          "name": "Last Scraped",
+          "type": "dateTime",
+          "description": "When this source was last processed"
+        },
+        {
+          "name": "Notes",
+          "type": "longText",
+          "description": "Additional context or targeting notes"
+        }
+      ]
+    },
+    "viral_content_analysis": {
+      "description": "Analyzed viral content with AI-generated insights and frameworks",
+      "fields": [
+        {
+          "name": "Post ID",
+          "type": "singleLineText",
+          "description": "Unique identifier from source platform"
+        },
+        {
+          "name": "Platform",
+          "type": "singleSelect",
+          "options": ["Instagram", "LinkedIn", "TikTok"],
+          "description": "Source platform"
+        },
+        {
+          "name": "URL",
+          "type": "url",
+          "description": "Link to original content"
+        },
+        {
+          "name": "Author",
+          "type": "singleLineText",
+          "description": "Content creator username or name"
+        },
+        {
+          "name": "Content Type",
+          "type": "singleSelect",
+          "options": ["Reel", "Carousel", "Text Post", "Video", "Image Post"],
+          "description": "Format of the viral content"
+        },
+        {
+          "name": "Engagement Count",
+          "type": "number",
+          "description": "Total likes, views, or reactions"
+        },
+        {
+          "name": "Caption Text",
+          "type": "longText",
+          "description": "Original caption or post text"
+        },
+        {
+          "name": "Script/Transcript", 
+          "type": "longText",
+          "description": "Audio transcription for video content"
+        },
+        {
+          "name": "Viral Score",
+          "type": "number",
+          "description": "AI-generated score (1-100) based on viral potential"
+        },
+        {
+          "name": "Primary Strengths",
+          "type": "longText", 
+          "description": "Top 3 factors that made this content successful"
+        },
+        {
+          "name": "Framework 1",
+          "type": "longText",
+          "description": "Primary content framework identified by AI"
+        },
+        {
+          "name": "Framework 2", 
+          "type": "longText",
+          "description": "Secondary framework option"
+        },
+        {
+          "name": "Framework 3",
+          "type": "longText", 
+          "description": "Third framework alternative"
+        },
+        {
+          "name": "Selected Framework",
+          "type": "singleSelect",
+          "options": ["Framework 1", "Framework 2", "Framework 3"],
+          "description": "User choice for content generation"
+        },
+        {
+          "name": "Action",
+          "type": "singleSelect",
+          "options": ["Generate Content", "Reject", "Archive", "Under Review"],
+          "description": "Next step for this content"
+        },
+        {
+          "name": "Analysis Date",
+          "type": "dateTime",
+          "description": "When AI analysis was completed"
+        },
+        {
+          "name": "Content Focus",
+          "type": "singleSelect", 
+          "options": ["Business", "Marketing", "Tech", "Lifestyle", "Education", "Finance"],
+          "description": "Content category"
+        }
+      ]
+    },
+    "generated_content_pipeline": {
+      "description": "AI-generated original content based on viral frameworks",
+      "fields": [
+        {
+          "name": "Source Post",
+          "type": "multipleRecordLinks",
+          "linkedTable": "viral_content_analysis",
+          "description": "Link to original viral content that inspired this"
+        },
+        {
+          "name": "Platform Target",
+          "type": "singleSelect",
+          "options": ["Instagram", "LinkedIn", "TikTok", "Cross-Platform"],
+          "description": "Intended platform for generated content"
+        },
+        {
+          "name": "Framework Used",
+          "type": "singleLineText",
+          "description": "Which viral framework was applied"
+        },
+        {
+          "name": "Generated Content",
+          "type": "longText",
+          "description": "AI-created content following the viral framework"
+        },
+        {
+          "name": "Caption",
+          "type": "longText",
+          "description": "Platform-optimized caption with hooks"
+        },
+        {
+          "name": "Hashtags",
+          "type": "singleLineText",
+          "description": "Strategic hashtag recommendations"
+        },
+        {
+          "name": "Production Notes",
+          "type": "longText",
+          "description": "Visual direction, audio notes, creation guidance"
+        },
+        {
+          "name": "Image Prompt",
+          "type": "longText",
+          "description": "AI image generation prompt for visuals"
+        },
+        {
+          "name": "Approval Status",
+          "type": "singleSelect",
+          "options": ["Pending Approval", "Approved", "Rejected", "Needs Revision", "In Use"],
+          "description": "Current approval state"
+        },
+        {
+          "name": "User Feedback",
+          "type": "longText",
+          "description": "Revision requests or approval comments"
+        },
+        {
+          "name": "Content Score",
+          "type": "number",
+          "description": "AI confidence rating (1-100) for generated content"
+        },
+        {
+          "name": "Generation Date",
+          "type": "dateTime",
+          "description": "When content was originally created"
+        },
+        {
+          "name": "Revision Count",
+          "type": "number",
+          "description": "Number of regeneration attempts"
+        }
+      ]
+    }
+  },
+  "automations": [
+    {
+      "name": "Content Generation Trigger",
+      "trigger": {
+        "type": "recordMatchesConditions",
+        "table": "viral_content_analysis",
+        "conditions": [
+          {
+            "field": "Selected Framework",
+            "operator": "isNotEmpty"
+          },
+          {
+            "field": "Action", 
+            "operator": "is",
+            "value": "Generate Content"
+          }
+        ]
+      },
+      "action": {
+        "type": "sendEmail",
+        "to": "${EMAIL_ADDRESS}",
+        "subject": "Content Generation Request - {Platform} - {Content Type}",
+        "body": "Framework: {Selected Framework}\n\nViral Score: {Viral Score}\n\nPrimary Strengths: {Primary Strengths}\n\nOriginal URL: {URL}\n\nPost ID: {Post ID}"
+      }
+    }
+  ],
+  "views": {
+    "content_sources": [
+      {
+        "name": "Active Sources",
+        "type": "grid",
+        "filter": "Status = 'Listening'"
+      },
+      {
+        "name": "By Platform",
+        "type": "grid", 
+        "groupBy": "Platform"
+      }
+    ],
+    "viral_content_analysis": [
+      {
+        "name": "Ready for Generation",
+        "type": "grid",
+        "filter": "Action = 'Generate Content' AND Selected Framework != ''"
+      },
+      {
+        "name": "High Performers",
+        "type": "grid",
+        "filter": "Viral Score >= 80",
+        "sort": [{"field": "Viral Score", "direction": "desc"}]
+      },
+      {
+        "name": "This Week's Content",
+        "type": "grid",
+        "filter": "Analysis Date >= TODAY() - 7"
+      },
+      {
+        "name": "By Platform",
+        "type": "grid",
+        "groupBy": "Platform"
+      }
+    ],
+    "generated_content_pipeline": [
+      {
+        "name": "Pending Approval",
+        "type": "grid",
+        "filter": "Approval Status = 'Pending Approval'"
+      },
+      {
+        "name": "Approved Content",
+        "type": "grid", 
+        "filter": "Approval Status = 'Approved'",
+        "sort": [{"field": "Generation Date", "direction": "desc"}]
+      },
+      {
+        "name": "Needs Revision",
+        "type": "grid",
+        "filter": "Approval Status = 'Needs Revision'"
+      }
+    ]
+  }
+}

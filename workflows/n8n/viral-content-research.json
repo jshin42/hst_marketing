@@ -1,0 +1,1187 @@
+{
+  "name": "Viral Content Research Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 23 * * 0"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2800,
+        400
+      ],
+      "id": "schedule-trigger",
+      "name": "Weekly Research Trigger"
+    },
+    {
+      "parameters": {
+        "content": "## Viral Content Research Workflow\n### Automated Weekly Analysis\n- Scrapes Instagram, LinkedIn, TikTok\n- Analyzes viral mechanics\n- Identifies content frameworks\n- Stores results in AirTable",
+        "height": 400,
+        "width": 800,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3200,
+        200
+      ],
+      "typeVersion": 1,
+      "id": "workflow-description",
+      "name": "Workflow Overview"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "${AIRTABLE_BASE_ID}",
+          "mode": "list",
+          "cachedResultName": "Viral Content Intelligence"
+        },
+        "table": {
+          "__rl": true,
+          "value": "content_sources",
+          "mode": "list",
+          "cachedResultName": "Content Sources"
+        },
+        "filterByFormula": "AND({Status} = \"Listening\")",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -2400,
+        400
+      ],
+      "id": "get-active-sources",
+      "name": "Get Active Content Sources",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "${AIRTABLE_CREDENTIAL_ID}",
+          "name": "AirTable API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Platform }}",
+                    "rightValue": "Instagram",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "instagram-condition"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Instagram"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Platform }}",
+                    "rightValue": "LinkedIn",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "linkedin-condition"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "LinkedIn"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Platform }}",
+                    "rightValue": "TikTok",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "tiktok-condition"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "TikTok"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        -2000,
+        400
+      ],
+      "id": "platform-router",
+      "name": "Platform Router"
+    },
+    {
+      "parameters": {
+        "url": "https://instagram-scraper21.p.rapidapi.com/api/v1/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "username",
+              "value": "={{ $json['Keyword or User'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "instagram-scraper21.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1600,
+        200
+      ],
+      "id": "instagram-scraper",
+      "name": "Instagram User Posts",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "${RAPIDAPI_CREDENTIAL_ID}",
+          "name": "RapidAPI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        200
+      ],
+      "id": "split-instagram-posts",
+      "name": "Split Instagram Posts"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "date-filter",
+              "leftValue": "={{ new Date($json[\"created_at_human_readable\"]) }}",
+              "rightValue": "={{ new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -800,
+        200
+      ],
+      "id": "filter-recent-posts",
+      "name": "Filter Recent Posts (7 days)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "engagement-filter",
+              "leftValue": "={{ $json.like_count }}",
+              "rightValue": "={{ $('Get Active Content Sources').item.json['Min Engagement Threshold'] }}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -400,
+        200
+      ],
+      "id": "filter-high-engagement",
+      "name": "Filter High Engagement"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.product_type }}",
+                    "rightValue": "carousel_container",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "carousel-check"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Carousel"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.product_type }}",
+                    "rightValue": "clips",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "reel-check"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Reel"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        0,
+        200
+      ],
+      "id": "content-type-router",
+      "name": "Instagram Content Type Router"
+    },
+    {
+      "parameters": {
+        "url": "https://instagram-scraper21.p.rapidapi.com/api/v1/post-info",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "code",
+              "value": "={{ $json.code }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "instagram-scraper21.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        100
+      ],
+      "id": "get-reel-details",
+      "name": "Get Reel Details",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "${RAPIDAPI_CREDENTIAL_ID}",
+          "name": "RapidAPI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const manifest = $input.first().json.data.post.dash_info.video_dash_manifest;\n\n// Extract audio URL from DASH manifest\nconst audioAdaptationSetMatch = manifest.match(/<AdaptationSet[^>]*contentType=\"audio\"[^>]*>[\\s\\S]*?<\\/AdaptationSet>/);\n\nif (!audioAdaptationSetMatch) {\n  return [{ json: { error: \"Audio AdaptationSet not found\" } }];\n}\n\n// Extract <BaseURL> within the audio section\nconst baseUrlMatch = audioAdaptationSetMatch[0].match(/<BaseURL>(.*?)<\\/BaseURL>/);\n\nif (!baseUrlMatch || !baseUrlMatch[1]) {\n  return [{ json: { error: \"BaseURL not found in audio AdaptationSet\" } }];\n}\n\n// Decode HTML entities\nconst decodedUrl = baseUrlMatch[1].replace(/&amp;/g, '&');\n\nreturn [\n  {\n    json: {\n      audio_url: decodedUrl,\n      post_id: $input.first().json.data.post.code,\n      caption: $input.first().json.data.post.edge_media_to_caption.edges[0]?.node.text || \"\",\n      like_count: $input.first().json.data.post.edge_media_preview_like.count,\n      username: $input.first().json.data.post.owner.username\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        100
+      ],
+      "id": "extract-audio-url",
+      "name": "Extract Audio URL"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.audio_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        100
+      ],
+      "id": "download-audio",
+      "name": "Download Audio File"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1600,
+        100
+      ],
+      "id": "transcribe-audio",
+      "name": "Transcribe Audio (Whisper)",
+      "credentials": {
+        "openAiApi": {
+          "id": "${OPENAI_CREDENTIAL_ID}",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert Instagram Reel analyst. Analyze this reel using the framework from the Instagram analysis prompt.\n\n## Input Data\n- Caption: {{ $('Extract Audio URL').item.json.caption }}\n- Transcript: {{ $json.text }}\n- Engagement: {{ $('Extract Audio URL').item.json.like_count }} likes\n- Creator: {{ $('Extract Audio URL').item.json.username }}\n\nAnalyze this reel across the 4 dimensions (Viral Mechanics 30%, Content Structure 25%, Platform Optimization 25%, Authenticity 20%) and provide the exact JSON output format specified in the Instagram analysis prompt.",
+        "hasOutputParser": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        2000,
+        100
+      ],
+      "id": "analyze-reel",
+      "name": "Analyze Instagram Reel"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"viral_score\": \"number 1-100\",\n  \"scoring_breakdown\": {\n    \"viral_mechanics\": \"score with explanation\",\n    \"content_structure\": \"score with explanation\",\n    \"platform_optimization\": \"score with explanation\",\n    \"authenticity_factors\": \"score with explanation\"\n  },\n  \"primary_strengths\": \"Top 3 engagement drivers\",\n  \"framework_1\": \"Primary Framework with description\",\n  \"framework_2\": \"Secondary Framework with description\",\n  \"framework_3\": \"Alternative Framework with description\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2400,
+        100
+      ],
+      "id": "parse-reel-analysis",
+      "name": "Parse Reel Analysis"
+    },
+    {
+      "parameters": {
+        "url": "https://instagram-scraper21.p.rapidapi.com/api/v1/post-info",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "code",
+              "value": "={{ $json.code }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "instagram-scraper21.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        300
+      ],
+      "id": "get-carousel-details",
+      "name": "Get Carousel Details",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "${RAPIDAPI_CREDENTIAL_ID}",
+          "name": "RapidAPI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data.post.edge_sidecar_to_children.edges[0].node.display_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        300
+      ],
+      "id": "get-first-slide",
+      "name": "Get First Slide Image"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Analyze this image and extract:\n1. All text content visible in the image\n2. Design style and visual elements\n3. Overall layout and formatting\n\nReturn as JSON: {\"text_content\": \"extracted text\", \"design_style\": \"description of visual design\"}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1200,
+        300
+      ],
+      "id": "analyze-first-slide",
+      "name": "Analyze First Slide (GPT Vision)",
+      "credentials": {
+        "openAiApi": {
+          "id": "${OPENAI_CREDENTIAL_ID}",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Count carousel slides\nconst edges = $('Get Carousel Details').first().json.data.post.edge_sidecar_to_children.edges;\nconst slideCount = edges.length;\n\nreturn [\n  {\n    json: {\n      slide_count: slideCount,\n      post_id: $('Get Carousel Details').first().json.data.post.code,\n      caption: $('Get Carousel Details').first().json.data.post.edge_media_to_caption.edges[0]?.node.text || \"\",\n      like_count: $('Get Carousel Details').first().json.data.post.edge_media_preview_like.count,\n      username: $('Get Carousel Details').first().json.data.post.owner.username\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        300
+      ],
+      "id": "count-slides",
+      "name": "Count Carousel Slides"
+    },
+    {
+      "parameters": {
+        "promptType": "define", 
+        "text": "=You are an expert Instagram Carousel analyst. Analyze this carousel using the framework from the Instagram analysis prompt.\n\n## Input Data\n- First Slide Text: {{ $('Analyze First Slide (GPT Vision)').item.json.message.content.text_content }}\n- Design Style: {{ $('Analyze First Slide (GPT Vision)').item.json.message.content.design_style }}\n- Caption: {{ $json.caption }}\n- Number of Slides: {{ $json.slide_count }}\n- Engagement: {{ $json.like_count }} likes\n- Creator: {{ $json.username }}\n\nAnalyze this carousel across the 4 dimensions with focus on carousel-specific factors like slide progression, swipe motivation, and visual consistency. Provide the exact JSON output format specified in the Instagram analysis prompt.",
+        "hasOutputParser": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        2000,
+        300
+      ],
+      "id": "analyze-carousel",
+      "name": "Analyze Instagram Carousel"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"viral_score\": \"number 1-100\",\n  \"scoring_breakdown\": {\n    \"viral_mechanics\": \"score with explanation\",\n    \"content_structure\": \"score with explanation\",\n    \"platform_optimization\": \"score with explanation\",\n    \"authenticity_factors\": \"score with explanation\"\n  },\n  \"primary_strengths\": \"Top 3 engagement drivers\",\n  \"framework_1\": \"Primary Framework with description\",\n  \"framework_2\": \"Secondary Framework with description\",\n  \"framework_3\": \"Alternative Framework with description\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2400,
+        300
+      ],
+      "id": "parse-carousel-analysis",
+      "name": "Parse Carousel Analysis"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "${AIRTABLE_BASE_ID}",
+          "mode": "list",
+          "cachedResultName": "Viral Content Intelligence"
+        },
+        "table": {
+          "__rl": true,
+          "value": "viral_content_analysis",
+          "mode": "list",
+          "cachedResultName": "Viral Content Analysis"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Post ID": "={{ $('Extract Audio URL').item.json.post_id }}",
+            "Platform": "Instagram",
+            "URL": "=https://instagram.com/p/{{ $('Extract Audio URL').item.json.post_id }}",
+            "Author": "={{ $('Extract Audio URL').item.json.username }}",
+            "Content Type": "Reel",
+            "Engagement Count": "={{ $('Extract Audio URL').item.json.like_count }}",
+            "Caption Text": "={{ $('Extract Audio URL').item.json.caption }}",
+            "Script/Transcript": "={{ $('Transcribe Audio (Whisper)').item.json.text }}",
+            "Viral Score": "={{ $json.output.viral_score }}",
+            "Primary Strengths": "={{ $json.output.primary_strengths }}",
+            "Framework 1": "={{ $json.output.framework_1 }}",
+            "Framework 2": "={{ $json.output.framework_2 }}",
+            "Framework 3": "={{ $json.output.framework_3 }}",
+            "Analysis Date": "={{ $now }}"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2800,
+        100
+      ],
+      "id": "save-reel-analysis",
+      "name": "Save Reel Analysis",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "${AIRTABLE_CREDENTIAL_ID}",
+          "name": "AirTable API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "${AIRTABLE_BASE_ID}",
+          "mode": "list",
+          "cachedResultName": "Viral Content Intelligence"
+        },
+        "table": {
+          "__rl": true,
+          "value": "viral_content_analysis",
+          "mode": "list",
+          "cachedResultName": "Viral Content Analysis"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Post ID": "={{ $('Count Carousel Slides').item.json.post_id }}",
+            "Platform": "Instagram",
+            "URL": "=https://instagram.com/p/{{ $('Count Carousel Slides').item.json.post_id }}",
+            "Author": "={{ $('Count Carousel Slides').item.json.username }}",
+            "Content Type": "Carousel",
+            "Engagement Count": "={{ $('Count Carousel Slides').item.json.like_count }}",
+            "Caption Text": "={{ $('Count Carousel Slides').item.json.caption }}",
+            "Script/Transcript": "={{ $('Count Carousel Slides').item.json.slide_count }} slides",
+            "Viral Score": "={{ $json.output.viral_score }}",
+            "Primary Strengths": "={{ $json.output.primary_strengths }}",
+            "Framework 1": "={{ $json.output.framework_1 }}",
+            "Framework 2": "={{ $json.output.framework_2 }}",
+            "Framework 3": "={{ $json.output.framework_3 }}",
+            "Analysis Date": "={{ $now }}"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2800,
+        300
+      ],
+      "id": "save-carousel-analysis",
+      "name": "Save Carousel Analysis",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "${AIRTABLE_CREDENTIAL_ID}",
+          "name": "AirTable API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "runActor",
+        "actorId": "linkedin-post-search-scraper",
+        "putInputInField": "input",
+        "inputJson": "={\n  \"searchKeywords\": \"{{ $json['Keyword or User'] }}\",\n  \"dateFilter\": \"past-week\",\n  \"resultsLimit\": 50\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.apify",
+      "typeVersion": 1,
+      "position": [
+        -1600,
+        600
+      ],
+      "id": "linkedin-search",
+      "name": "LinkedIn Content Search",
+      "credentials": {
+        "apifyApi": {
+          "id": "${APIFY_CREDENTIAL_ID}",
+          "name": "Apify API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getRun",
+        "runId": "={{ $json.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.apify",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        600
+      ],
+      "id": "get-linkedin-run",
+      "name": "Get LinkedIn Run Status"
+    },
+    {
+      "parameters": {
+        "operation": "getDatasetItems",
+        "datasetId": "={{ $json.defaultDatasetId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.apify",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        600
+      ],
+      "id": "get-linkedin-results",
+      "name": "Get LinkedIn Results"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "linkedin-engagement-filter",
+              "leftValue": "={{ $json.stats.total_reactions }}",
+              "rightValue": "={{ $('Get Active Content Sources').item.json['Min Engagement Threshold'] }}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -400,
+        600
+      ],
+      "id": "filter-linkedin-engagement",
+      "name": "Filter LinkedIn Engagement"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert LinkedIn content analyst. Analyze this LinkedIn post using the framework from the LinkedIn analysis prompt.\n\n## Input Data\n- Post Text: {{ $json.text }}\n- Author: {{ $json.author.name }} - {{ $json.author.headline }}\n- Content Type: {{ $json.content.type }}\n- Engagement: {{ $json.stats.total_reactions }} reactions, {{ $json.stats.comments }} comments, {{ $json.stats.shares }} shares\n- Hashtags: {{ $json.hashtags }}\n\nAnalyze this post across the 4 professional dimensions (Professional Authority 30%, Business Value 25%, LinkedIn Optimization 25%, Professional Networking 20%) and provide the exact JSON output format specified in the LinkedIn analysis prompt.",
+        "hasOutputParser": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        0,
+        600
+      ],
+      "id": "analyze-linkedin-post",
+      "name": "Analyze LinkedIn Post"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"linkedin_score\": \"number 1-100\",\n  \"scoring_breakdown\": {\n    \"professional_authority\": \"score with explanation\",\n    \"business_value_delivery\": \"score with explanation\",\n    \"linkedin_optimization\": \"score with explanation\",\n    \"professional_networking\": \"score with explanation\"\n  },\n  \"primary_strengths\": \"Top 3 professional elements\",\n  \"framework_1\": \"Primary Framework with description\",\n  \"framework_2\": \"Secondary Framework with description\",\n  \"framework_3\": \"Alternative Framework with description\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        600
+      ],
+      "id": "parse-linkedin-analysis",
+      "name": "Parse LinkedIn Analysis"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "${AIRTABLE_BASE_ID}",
+          "mode": "list",
+          "cachedResultName": "Viral Content Intelligence"
+        },
+        "table": {
+          "__rl": true,
+          "value": "viral_content_analysis",
+          "mode": "list",
+          "cachedResultName": "Viral Content Analysis"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Post ID": "={{ $('Filter LinkedIn Engagement').item.json.id }}",
+            "Platform": "LinkedIn",
+            "URL": "={{ $('Filter LinkedIn Engagement').item.json.url }}",
+            "Author": "={{ $('Filter LinkedIn Engagement').item.json.author.name }}",
+            "Content Type": "={{ $('Filter LinkedIn Engagement').item.json.content.type }}",
+            "Engagement Count": "={{ $('Filter LinkedIn Engagement').item.json.stats.total_reactions }}",
+            "Caption Text": "={{ $('Filter LinkedIn Engagement').item.json.text }}",
+            "Viral Score": "={{ $json.output.linkedin_score }}",
+            "Primary Strengths": "={{ $json.output.primary_strengths }}",
+            "Framework 1": "={{ $json.output.framework_1 }}",
+            "Framework 2": "={{ $json.output.framework_2 }}",
+            "Framework 3": "={{ $json.output.framework_3 }}",
+            "Analysis Date": "={{ $now }}"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        800,
+        600
+      ],
+      "id": "save-linkedin-analysis",
+      "name": "Save LinkedIn Analysis",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "${AIRTABLE_CREDENTIAL_ID}",
+          "name": "AirTable API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Weekly Research Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Active Content Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Active Content Sources": {
+      "main": [
+        [
+          {
+            "node": "Platform Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Platform Router": {
+      "main": [
+        [
+          {
+            "node": "Instagram User Posts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "LinkedIn Content Search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Instagram User Posts": {
+      "main": [
+        [
+          {
+            "node": "Split Instagram Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Instagram Posts": {
+      "main": [
+        [
+          {
+            "node": "Filter Recent Posts (7 days)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Recent Posts (7 days)": {
+      "main": [
+        [
+          {
+            "node": "Filter High Engagement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter High Engagement": {
+      "main": [
+        [
+          {
+            "node": "Instagram Content Type Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram Content Type Router": {
+      "main": [
+        [
+          {
+            "node": "Get Carousel Details",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Reel Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Reel Details": {
+      "main": [
+        [
+          {
+            "node": "Extract Audio URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Audio URL": {
+      "main": [
+        [
+          {
+            "node": "Download Audio File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Audio File": {
+      "main": [
+        [
+          {
+            "node": "Transcribe Audio (Whisper)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe Audio (Whisper)": {
+      "main": [
+        [
+          {
+            "node": "Analyze Instagram Reel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Instagram Reel": {
+      "main": [
+        [
+          {
+            "node": "Parse Reel Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Reel Analysis": {
+      "main": [
+        [
+          {
+            "node": "Save Reel Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Carousel Details": {
+      "main": [
+        [
+          {
+            "node": "Get First Slide Image",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Count Carousel Slides",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get First Slide Image": {
+      "main": [
+        [
+          {
+            "node": "Analyze First Slide (GPT Vision)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze First Slide (GPT Vision)": {
+      "main": [
+        [
+          {
+            "node": "Analyze Instagram Carousel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Count Carousel Slides": {
+      "main": [
+        [
+          {
+            "node": "Analyze Instagram Carousel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Instagram Carousel": {
+      "main": [
+        [
+          {
+            "node": "Parse Carousel Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Carousel Analysis": {
+      "main": [
+        [
+          {
+            "node": "Save Carousel Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LinkedIn Content Search": {
+      "main": [
+        [
+          {
+            "node": "Get LinkedIn Run Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get LinkedIn Run Status": {
+      "main": [
+        [
+          {
+            "node": "Get LinkedIn Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get LinkedIn Results": {
+      "main": [
+        [
+          {
+            "node": "Filter LinkedIn Engagement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter LinkedIn Engagement": {
+      "main": [
+        [
+          {
+            "node": "Analyze LinkedIn Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze LinkedIn Post": {
+      "main": [
+        [
+          {
+            "node": "Parse LinkedIn Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse LinkedIn Analysis": {
+      "main": [
+        [
+          {
+            "node": "Save LinkedIn Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "timezone": "America/Chicago",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "error-handler-workflow"
+  },
+  "staticData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "viral-content-research",
+      "name": "Viral Content Research"
+    }
+  ]
+}

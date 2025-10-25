@@ -1,0 +1,30 @@
+# Environment files
+.env
+
+# Node modules (if using local n8n)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log
+
+# API keys and secrets (backup protection)
+**/api-keys.json
+**/secrets.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/

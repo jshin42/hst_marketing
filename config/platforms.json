@@ -1,0 +1,193 @@
+{
+  "instagram": {
+    "api": {
+      "scraper": "instagram-scraper21",
+      "provider": "RapidAPI",
+      "base_url": "https://instagram-scraper21.p.rapidapi.com/api/v1",
+      "endpoints": {
+        "user_posts": "/posts",
+        "post_info": "/post-info",
+        "reel_info": "/post-info"
+      },
+      "headers": {
+        "X-RapidAPI-Host": "instagram-scraper21.p.rapidapi.com",
+        "X-RapidAPI-Key": "${RAPIDAPI_KEY}"
+      },
+      "rate_limits": {
+        "requests_per_minute": 500,
+        "requests_per_day": 10000
+      }
+    },
+    "content_types": {
+      "reel": {
+        "identifier": "clips",
+        "analysis_type": "audio_transcript",
+        "requires_audio_extraction": true
+      },
+      "carousel": {
+        "identifier": "carousel_container", 
+        "analysis_type": "visual_text_extraction",
+        "requires_image_analysis": true
+      },
+      "post": {
+        "identifier": "feed",
+        "analysis_type": "text_only",
+        "requires_image_analysis": false
+      }
+    },
+    "engagement_thresholds": {
+      "business": 1000,
+      "marketing": 500,
+      "lifestyle": 2000,
+      "default": 500
+    },
+    "hashtag_limits": {
+      "max_hashtags": 30,
+      "recommended": 5-10
+    }
+  },
+  "linkedin": {
+    "api": {
+      "scraper": "linkedin-post-search",
+      "provider": "Apify",
+      "base_url": "https://api.apify.com/v2/acts",
+      "actor_id": "linkedin-post-search-scraper",
+      "endpoints": {
+        "run_actor": "/runs",
+        "get_results": "/runs/{run_id}/dataset/items"
+      },
+      "headers": {
+        "Authorization": "Bearer ${APIFY_TOKEN}"
+      },
+      "rate_limits": {
+        "concurrent_runs": 5,
+        "monthly_usage": "$5 for 1000 results"
+      }
+    },
+    "search_parameters": {
+      "date_filter": "past-week",
+      "result_limit": 50,
+      "sort_by": "relevance"
+    },
+    "content_types": {
+      "text_post": {
+        "analysis_type": "text_professional",
+        "authority_factors": true
+      },
+      "image_post": {
+        "analysis_type": "text_visual_professional",
+        "requires_image_analysis": true
+      },
+      "video_post": {
+        "analysis_type": "text_visual_professional",
+        "requires_transcript": false
+      }
+    },
+    "engagement_thresholds": {
+      "business": 25,
+      "marketing": 50, 
+      "tech": 30,
+      "default": 25
+    },
+    "professional_indicators": [
+      "industry_expertise",
+      "thought_leadership", 
+      "business_value",
+      "network_engagement"
+    ]
+  },
+  "tiktok": {
+    "api": {
+      "scraper": "tiktok-api23",
+      "provider": "RapidAPI",
+      "base_url": "https://tiktok-api23.p.rapidapi.com",
+      "endpoints": {
+        "search": "/search",
+        "music_info": "/music/info"
+      },
+      "headers": {
+        "X-RapidAPI-Host": "tiktok-api23.p.rapidapi.com",
+        "X-RapidAPI-Key": "${RAPIDAPI_KEY}"
+      },
+      "rate_limits": {
+        "requests_per_minute": 100,
+        "requests_per_day": 2000
+      }
+    },
+    "search_parameters": {
+      "result_limit": 20,
+      "region": "US",
+      "sort_by": "popularity"
+    },
+    "content_filtering": {
+      "audio_filter": "original_sound_only",
+      "min_duration_seconds": 15,
+      "max_duration_seconds": 180
+    },
+    "engagement_thresholds": {
+      "business": 10000,
+      "marketing": 5000,
+      "lifestyle": 50000,
+      "default": 10000
+    },
+    "audio_processing": {
+      "requires_ffmpeg": true,
+      "output_format": "mp3",
+      "temp_directory": "/tmp/tiktok_audio"
+    }
+  },
+  "ai_services": {
+    "openai": {
+      "models": {
+        "analysis": "gpt-4o",
+        "generation": "gpt-4o", 
+        "vision": "gpt-4o",
+        "whisper": "whisper-1"
+      },
+      "api_key": "${OPENAI_API_KEY}",
+      "rate_limits": {
+        "gpt4_requests_per_minute": 500,
+        "whisper_requests_per_minute": 50
+      }
+    }
+  },
+  "workflow_settings": {
+    "schedule": {
+      "research_trigger": "0 23 * * 0",
+      "timezone": "America/Chicago"
+    },
+    "processing_limits": {
+      "max_content_per_platform": 20,
+      "max_processing_time_minutes": 120
+    },
+    "email_settings": {
+      "approval_timeout_hours": 24,
+      "sender_address": "${EMAIL_ADDRESS}",
+      "approval_subject_prefix": "Content Approval Required"
+    }
+  },
+  "content_frameworks": {
+    "universal": [
+      "Problem-Solution-Proof",
+      "Hook-Educate-CTA",
+      "Story-Lesson-Application",
+      "Question-Journey-Answer",
+      "Before-During-After"
+    ],
+    "instagram_specific": [
+      "Visual-Hook-Value-CTA",
+      "Trend-Remix-Personal",
+      "Tutorial-Tip-Transform"
+    ],
+    "linkedin_specific": [
+      "Problem-Insight-Solution", 
+      "Experience-Lesson-Application",
+      "Data-Analysis-Prediction"
+    ],
+    "tiktok_specific": [
+      "Hook-Deliver-Twist",
+      "Trend-Remix-Amplify", 
+      "Quick-Tip-Implementation"
+    ]
+  }
+}
